@@ -3,6 +3,8 @@ import os
 from discord.ext import commands as discord_commands
 from twitchio.ext import commands
 
+from .rl_cog import RLAdaptor
+
 
 class TwitchBot(commands.Bot):
 
@@ -12,17 +14,12 @@ class TwitchBot(commands.Bot):
                          nick=os.environ['BOT_NICK'],
                          prefix=os.environ['BOT_PREFIX'],
                          initial_channels=[os.environ['CHANNEL']])
-
+        self.add_cog(RLAdaptor(self))
         self.loop.create_task(self.start())
 
     # TwitchIO event
     async def event_message(self, message):
-        print(message.content)
         await self.handle_commands(message)
-
-    @commands.command(name="test")
-    async def twitch_command(self, ctx):
-        await ctx.send('Hai there!')
 
 
 class TwitchCog(discord_commands.Cog):

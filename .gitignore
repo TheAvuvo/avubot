@@ -1,0 +1,6 @@
+venv/
+__pycache__/
+.vscode/
+.env
+test.py
+testing.mp3

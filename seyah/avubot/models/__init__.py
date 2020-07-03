@@ -1,16 +1,31 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import Optional
 
 
 class Platform(Enum):
-    DISCORD = "discord"
-    TWITCH = "twitch"
+    DISCORD = "DISCORD"
+    TWITCH = "TWITCH"
+
+    def __str__(self):
+        return self.value
+
+
+class Game(Enum):
+    ROCKETLEAGUE = ("ROCKETLEAGUE", "rl")
+    VALORANT = ("VALORANT", "valorant")
+    JACKBOX = ("JACKBOX", "jackbox")
+
+    def __str__(self):
+        return self.value[0]
+
+    def cmd(self):
+        return self.value[1]
 
 
 @dataclass
 class GameUser():
-    id: int
-    discord: Optional[str]
-    twitch: Optional[str]
-    game_id: Optional[str]
+    uid: int
+    username: str
+    platform: Platform
+    game: Game
+    game_id: str

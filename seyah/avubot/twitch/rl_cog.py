@@ -2,7 +2,6 @@ from typing import List
 
 from twitchio.ext import commands
 
-from ..commands import rocket_league
 from ..models import GameUser
 
 

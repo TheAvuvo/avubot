@@ -3,7 +3,7 @@ import os
 from discord.ext import commands as discord_commands
 from twitchio.ext import commands
 
-from .rl_cog import RLAdaptor
+from .rocketleague_cog import RocketLeagueCog
 
 
 class TwitchBot(commands.Bot):
@@ -14,7 +14,7 @@ class TwitchBot(commands.Bot):
                          nick=os.environ['BOT_NICK'],
                          prefix=os.environ['BOT_PREFIX'],
                          initial_channels=[os.environ['CHANNEL']])
-        self.add_cog(RLAdaptor(self))
+        self.add_cog(RocketLeagueCog(self))
         self.loop.create_task(self.start())
 
     # TwitchIO event

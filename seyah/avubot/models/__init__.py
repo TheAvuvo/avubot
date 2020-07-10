@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
+from typing import Optional
 
 
 class Platform(Enum):
@@ -14,6 +15,17 @@ class Game(Enum):
     ROCKETLEAGUE = ("ROCKETLEAGUE", "rl")
     VALORANT = ("VALORANT", "valorant")
     JACKBOX = ("JACKBOX", "jackbox")
+
+    @classmethod
+    def to_enum(cls, game: str) -> Optional["Game"]:
+        if game == "ROCKETLEAGUE":
+            return Game.ROCKETLEAGUE
+        elif game == "VALORANT":
+            return Game.VALORANT
+        elif game == "JACKBOX":
+            return Game.JACKBOX
+        else:
+            return None
 
     def __str__(self):
         return self.value[0]

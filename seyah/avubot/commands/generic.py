@@ -43,7 +43,7 @@ async def get_player(uid: str, platform: Platform, game: Game) -> Optional[GameU
                 game_user = GameUser(uid=row[0],
                                      username=row[1],
                                      platform=Platform(row[2]),
-                                     game=Game(row[3]),
+                                     game=Game.to_enum(row[3]),
                                      game_id=row[4])
                 return game_user
     return None
@@ -55,12 +55,12 @@ async def join_queue(uid: str, platform: Platform, game: Game) -> int:
         return -2
 
     params_tuple = (uid, str(game))
-    try:
-        async with aiosqlite.connect(USER_DB) as db:
+    async with aiosqlite.connect(USER_DB) as db:
+        try:
             await db.execute(QUEUE_INSERT, params_tuple)
             await db.commit()
-    except aiosqlite.IntegrityError:
-        return -3
+        except sqlite3.IntegrityError:
+            return -3
 
     users: List[GameUser] = await get_queue(game)
     queue_position = -1
@@ -88,7 +88,7 @@ async def get_queue(game: Game) -> List[GameUser]:
                 game_users.append(GameUser(uid=row[1],
                                            username=row[4],
                                            platform=Platform(row[5]),
-                                           game=Game(row[6]),
+                                           game=Game.to_enum(row[6]),
                                            game_id=row[7]))
     return game_users
 
@@ -102,7 +102,7 @@ async def pop_queue(game: Game, count: int) -> List[GameUser]:
                 game_users.append(GameUser(uid=row[1],
                                            username=row[4],
                                            platform=Platform(row[5]),
-                                           game=Game(row[6]),
+                                           game=Game.to_enum(row[6]),
                                            game_id=row[7]))
         await db.execute(QUEUE_POP, params_tuple)
         await db.commit()

@@ -1,3 +1,5 @@
+from typing import Optional
+
 from discord.ext import commands
 
 from ..models import Game
@@ -22,8 +24,8 @@ class JackboxCog(commands.Cog):
         await generic_cog_mixin.register_player(ctx, Game.JACKBOX, game_id)
 
     @jackbox.command()
-    async def play(self, ctx):
-        await generic_cog_mixin.join_queue(ctx, Game.JACKBOX)
+    async def play(self, ctx, game_id: Optional[str]):
+        await generic_cog_mixin.join_queue(ctx, Game.JACKBOX, game_id)
 
     @jackbox.command()
     async def leave(self, ctx):
